@@ -12,4 +12,9 @@
 	<!-- Run to subscribe topics image_raw and camera_info in namespace, eg., defined in ns="/ridecell" -->
 	<node name="image_proc" pkg="image_proc" type="image_proc" ns="/ridecell" output="screen"
 	/>
+
+	<!-- rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 1.0 base_link velodyne 1000 -->
+    <node name="static_transform" pkg="tf" type="static_transform_publisher"
+    args="0.0 0.0 0.0 0.0 0.0 0.0 1.0 base_link velodyne 1000"
+    />
 </launch>

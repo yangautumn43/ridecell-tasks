@@ -52,4 +52,30 @@ I wrote the launch file to do the above three nodes.
 
 ```
 
-Then fire up `rqt`, we can view the rectified images by choosing the `/ridecell/image_rect_color`
+Then fire up `rqt`, we can view the rectified images by choosing the `/ridecell/image_rect_color`, as shown below:
+
+![Task One: Image Rectification](results/rqt_rectified_image.png)
+
+
+## Tast Two: lidar-camera extrinsic calibration
+
+The extrinsic parameters of a lidar-camera calibration includes the rotation and translation, which is 6DoF. 2D-3D point correspondence method is used to calculate the tranformation (rotation+translation) between Lidar and camera. 
+
+### The first step is to collect the correspondence points (lidar-3D, camera-2D)
+My first problem is to find out how to collect those points. (Set a specific time so that the checkboard is clear to selece corresponding lidar points?)
+
+To view the lidar data together with rectified images, I run the `static_transform_publisher` in `tf` to set base_link and velodyne tranform to be zeros (no rotation, no translation).
+```
+rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 1.0 base_link velodyne 1000
+```
+This command is now added to `camera_calibration.launch` and `view_lidar.launch`.
+
+
+
+
+### Then run the optimization algorithm to calibrate the lidar-camera transformation (extrinsics)
+
+### Use the calibrated transformation to output overlayed images
+
+
+
