@@ -1,0 +1,15 @@
+<launch>
+	<!-- Play the rosbag file to publish original sensor data -->
+	<node name="rosbag" pkg="rosbag" type="play" 
+	args="$(find ridecell)/bags/2016-11-22-14-32-13_test.bag -l"
+	output="screen"
+	/>
+
+	<node name="subpub" pkg="ridecell" type="pub_camera_info.py"
+	args="$(find ridecell)/config/ost.yaml" 
+	/>
+
+	<!-- Run to subscribe topics image_raw and camera_info in namespace, eg., defined in ns="/ridecell" -->
+	<node name="image_proc" pkg="image_proc" type="image_proc" ns="/ridecell" output="screen"
+	/>
+</launch>
