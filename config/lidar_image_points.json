@@ -1,10 +1,6 @@
 {
-	/* Checkerboard corners
-	1	2	3
-			
-	4	5	6
-	*/
-	// Lidar points
+	"_comment": "Checkboard corners: top-l, top-m, top-r, bot-l, bot-m, bot-r; points are lidar data in meters; uvs are image points in pixels; bounds are x, y, z, yaw, pitch, roll",
+
 	"points": [ 
 		[ 1.6460, 0.1787, -0.0867, 1.0 ], 
 		[ 1.5833, -0.1386, -0.0817, 1.0 ], 
@@ -13,7 +9,6 @@
 		[ 1.6101, -0.1048, -0.3725, 1.0 ], 
 		[ 1.5741, -0.3718, -0.3734, 1.0 ] 
 	],
-	// image points
 	"uvs": [
 		[306, 319], 
 		[407, 323],
@@ -22,14 +17,14 @@
 		[397, 436],
 		[490, 440]
 	],
-	"initTransform": [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+	"initialTransform": [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
 	"bounds": [
-		[ -4, 4 ], // +/- 4 meters
-		[ -4, 4 ], // +/- 4 meters
-		[ -4, 4 ], // +/- 4 meters
-		[ 0, 6.28318530718 ], // 2pi
-		[ 0, 6.28318530718 ], // 2pi
-		[ 0, 6.28318530718 ] // 2pi
+		[ -4, 4 ], 
+		[ -4, 4 ], 
+		[ -4, 4 ], 
+		[ 0, 6.28318530718 ], 
+		[ 0, 6.28318530718 ], 
+		[ 0, 6.28318530718 ] 
 	]
 }
 

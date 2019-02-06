@@ -50,7 +50,12 @@ class ImagePoints():
 
 if __name__ == "__main__":
     # Get fname from command line (cmd line input required)
-    filename = sys.argv[1]
+    if len(sys.argv) > 1:
+        filename = sys.argv[1]
+    else:
+        print('Usage:')
+        print(sys.argv[0] + ' image_file.png (input image file)')
+        sys.exit(1)         
 
     ip = ImagePoints(filename)
     ip.selectImagePoints()
