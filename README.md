@@ -57,7 +57,7 @@ Then fire up `rqt`, we can view the rectified images by choosing the `/ridecell/
 ![Task One: Image Rectification](results/rqt_rectified_image.png)
 
 
-## Tast Two: lidar-camera extrinsic calibration
+## Task Two: lidar-camera extrinsic calibration
 
 The extrinsic parameters of a lidar-camera calibration includes the rotation and translation, which is 6DoF. 2D-3D point correspondence method is used to calculate the tranformation (rotation+translation) between Lidar and camera. 
 
@@ -114,6 +114,12 @@ Then the collected six lidar-image point pairs are stored in a json file for cal
 
 ### Then run the optimization algorithm to calibrate the lidar-camera transformation (extrinsics)
 
+The basic logic behind this is to minimize the reprojections errors. The correspondence 3D-2D points and camera params are passed to the calibration script. A pinhole camera model is defined and initialized with the camera intrinsics params, which is used reproject the 3D lidar points to image space. Actually the number of correspondence points can be variable. For a better estimation, spatial uniformly distributed points are recommended. However, precision of the selected points is also important.
+
+Here I start the optimization by firing up the command:
+```
+rosrun ridecell calibrate_lidar_camera.py config/lidar_image_points.json config/ost.yaml
+```
 
 Here is the terminal output:
 ```
@@ -126,7 +132,9 @@ Calibration done ...
 Final transformation:
 [-0.53831089 -0.076088   -0.41682017  2.67673445  4.53119823  5.19606972]
 ```
+
 ### Use the calibrated transformation to output overlayed images
 
+Now that we got a rough estimation of the lidar-camera transformation, we can move on to create lidar-image overlay. To be more precific, this transformation is from camera to lidar, which means we see the camear frame as the world frame.
 
 
