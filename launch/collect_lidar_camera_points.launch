@@ -3,7 +3,7 @@
 
 	<!-- Play the rosbag file to publish original sensor data -->
 	<node name="rosbag" pkg="rosbag" type="play" 
-	args="$(find ridecell)/bags/2016-11-22-14-32-13_test.bag -l"
+	args="--clock -s 22 -u 5 $(find ridecell)/bags/2016-11-22-14-32-13_test.bag -l"
 	output="screen"
 	/>
 
@@ -16,7 +16,8 @@
 	/>
 
 
-	<node pkg="image_view" type="image_view" name="view" cwd="ROS_HOME">
+	<node pkg="image_view" type="image_view" name="view" >
+        <param name="autosize" value="true" />
 		<remap from="image" to="/ridecell/image_rect_color"/>
 	</node>
 
