@@ -4,11 +4,9 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Grid1/Status1
-        - /RobotState1/Status1
         - /Image1
       Splitter Ratio: 0.420520246
-    Tree Height: 491
+    Tree Height: 306
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -25,6 +23,8 @@ Panels:
     Name: Time
     SyncMode: 0
     SyncSource: PointCloud2
+  - Class: rviz/Help
+    Name: Help
 Visualization Manager:
   Class: ""
   Displays:
@@ -62,28 +62,11 @@ Visualization Manager:
       Show Names: true
       Tree:
         base_link:
-          velodyne:
-            {}
+          {}
+        velodyne:
+          {}
       Update Interval: 0
       Value: true
-    - Attached Body Color: 150; 50; 150
-      Class: moveit_rviz_plugin/RobotState
-      Collision Enabled: false
-      Enabled: false
-      Links:
-        All Links Enabled: true
-        Expand Joint Details: false
-        Expand Link Details: false
-        Expand Tree: false
-        Link Tree Style: Links in Alphabetic Order
-      Name: RobotState
-      Robot Alpha: 1
-      Robot Description: robot_description
-      Robot State Topic: display_robot_state
-      Show All Links: true
-      Show Highlights: true
-      Value: false
-      Visual Enabled: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -99,7 +82,7 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 195
+      Max Intensity: 105
       Min Color: 0; 0; 0
       Min Intensity: 0
       Name: PointCloud2
@@ -126,6 +109,24 @@ Visualization Manager:
       Transport Hint: raw
       Unreliable: false
       Value: true
+    - Attached Body Color: 150; 50; 150
+      Class: moveit_rviz_plugin/RobotState
+      Collision Enabled: false
+      Enabled: false
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: ""
+      Name: RobotState
+      Robot Alpha: 1
+      Robot Description: robot_description
+      Robot State Topic: display_robot_state
+      Show All Links: true
+      Show Highlights: true
+      Value: false
+      Visual Enabled: true
   Enabled: true
   Global Options:
     Background Color: 0; 0; 0
@@ -134,42 +135,43 @@ Visualization Manager:
     Frame Rate: 30
   Name: root
   Tools:
-    - Class: rviz/Interact
-      Hide Inactive Objects: true
     - Class: rviz/MoveCamera
+    - Class: rviz/Select
   Value: true
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 10.0681057
+      Distance: 6.03052807
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.762185335
-        Y: -0.0491686463
-        Z: 0.227771759
+        X: 0.959640741
+        Y: 0.101350896
+        Z: 0.492367476
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.440202802
+      Pitch: 0.385202944
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.09857297
+      Yaw: 3.81357837
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
   Height: 1026
+  Help:
+    collapsed: false
   Hide Left Dock: false
   Hide Right Dock: false
   Image:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000001c700000378fc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c00610079007301000000280000027a000000dd00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000a0049006d00610067006501000002a8000000f80000001600ffffff000000010000014600000378fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073010000002800000378000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000065f0000003efc0100000002fb0000000800540069006d006501000000000000065f0000030000fffffffb0000000800540069006d00650100000000000004500000000000000000000003460000037800000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000001c700000378fc0200000009fb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000002490000015000000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c0061007900730100000028000001c1000000dd00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000a0049006d00610067006501000001ef000001b10000001600fffffffb0000000800480065006c007000000002ea000000b60000007600ffffff000000010000010f00000378fc0200000004fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0056006900650077007301000000280000015b000000b000fffffffb0000001200530065006c0065006300740069006f006e0100000189000002170000006400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000065f0000003efc0100000002fb0000000800540069006d006501000000000000065f0000030000fffffffb0000000800540069006d006501000000000000045000000000000000000000037d0000037800000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -179,5 +181,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1631
-  X: 49
+  X: 1729
   Y: 24

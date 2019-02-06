@@ -62,13 +62,41 @@ Then fire up `rqt`, we can view the rectified images by choosing the `/ridecell/
 The extrinsic parameters of a lidar-camera calibration includes the rotation and translation, which is 6DoF. 2D-3D point correspondence method is used to calculate the tranformation (rotation+translation) between Lidar and camera. 
 
 ### The first step is to collect the correspondence points (lidar-3D, camera-2D)
-My first problem is to find out how to collect those points. (Set a specific time so that the checkboard is clear to selece corresponding lidar points?)
+-  My first problem is to find out how to collect those points. (Set a specific time so that the checkboard is clear to selece corresponding lidar points?) 
+
+- Together with the above problem, now maybe I need to get a rectified rosbag file using a Indigo Ros version (for bag_tools).
+[NO. With the launch file in Task One, we can use `space` to control pause and select the corrensponding lidar and camera frames]
+
+- How to sync a camera frame and a lidar frame?
+[See the answer above.]
+
+- How to select the lidar points within a frame and corresponding camera points in a image?
+[Use rviz. Top menu --> Panels --> Selection. Then add a tool called 'Select' besides 'Move Camera' by clicking the `plus` button. After that, choose `Select` and click a lidar point in the rviz gui, then in the `Selection` panel you will see the 3D point (x, y, z).]
+reference: how to point and click on rviz map and output the position (https://answers.ros.org/question/69019/how-to-point-and-click-on-rviz-map-and-output-the-position/)
 
 To view the lidar data together with rectified images, I run the `static_transform_publisher` in `tf` to set base_link and velodyne tranform to be zeros (no rotation, no translation).
 ```
 rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 1.0 base_link velodyne 1000
 ```
 This command is now added to `camera_calibration.launch` and `view_lidar.launch`.
+
+```xml
+<launch>
+	<!-- Play the rosbag file to publish original sensor data -->
+	<node name="rosbag" pkg="rosbag" type="play" 
+	args="--clock $(find ridecell)/bags/2016-11-22-14-32-13_test.bag -l"
+	output="screen"
+	/>
+
+    <!-- rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 1.0 base_link velodyne 1000 -->
+    <node name="static_transform" pkg="tf" type="static_transform_publisher"
+    args="0.0 0.0 0.0 0.0 0.0 0.0 1.0 base_link velodyne 1000"
+    />
+</launch>
+```
+Here is a screenshot of the rviz window visualizing lidar data and rectified image.
+
+![Task Two: Lidar and camera visualization](results/rviz_lidar_camera.png)
 
 
 
