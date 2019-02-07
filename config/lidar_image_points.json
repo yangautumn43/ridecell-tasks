@@ -1,5 +1,5 @@
 {
-	"_comment": "Checkboard corners: top-l, top-m, top-r, bot-l, bot-m, bot-r; points are lidar data in meters; uvs are image points in pixels; bounds are x, y, z, yaw, pitch, roll",
+	"_comment": "Checkerboard corners: top-l, top-m, top-r, bot-l, bot-m, bot-r; points are lidar data in meters; uvs are image points in pixels; bounds are x, y, z, yaw, pitch, roll",
 
 	"points": [ 
 		[ 1.6460, 0.1787, -0.0867, 1.0 ], 

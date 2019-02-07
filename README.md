@@ -21,7 +21,31 @@ Here is what I got after running `rostopic list`:
 ```
 After enough images are collected (for different x, y, skew, and size), I clicked the `Calibrate` button to start calibration. The caliration results are saved to `/tmp/calibrationdata.tar.gz/` after I clicked the `Save` button.
 
-The yaml file (now in the `/results/calibrationdata/` folder) stores all the calibrated parameters we will need to rectify images taken from that camera.
+The yaml file (`ost.yaml` in the `/results/calibrationdata/` and `config` folders) stores all the calibrated parameters we will need to rectify images taken from that camera.
+
+```yaml
+image_width: 964
+image_height: 724
+camera_name: narrow_stereo
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [486.256970, 0.000000, 456.755380, 0.000000, 486.647597, 365.580957, 0.000000, 0.000000, 1.000000]
+distortion_model: plumb_bob
+distortion_coefficients:
+  rows: 1
+  cols: 5
+  data: [-0.200343, 0.068582, 0.003023, 0.000061, 0.000000]
+rectification_matrix:
+  rows: 3
+  cols: 3
+  data: [1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000]
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [426.549255, 0.000000, 460.533940, 0.000000, 0.000000, 434.749481, 369.933799, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000]
+```
+
 
 ### 2. Use the above parameters to update the camera_info topic of the original rosbag file 
 The best way to prepare the input for rectifying the images is to modify the original rosbag file by replacing the 'camera_info' topic. 'bag_tools' would be the best option, however it can't be installed on my Ubuntu 16.4 LTE ROS kinetic.
@@ -89,7 +113,7 @@ The extrinsic parameters of a lidar-camera calibration includes the rotation and
 
 To view the lidar data together with rectified images, I run the `static_transform_publisher` in `tf` to set `world` frame and `velodyne` frame transformation to be zeros (no rotation, no translation).
 ```
-rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 1.0 world velodyne 1000
+rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 1.0 world velodyne 10
 ```
 This command is now added to `camera_calibration.launch` and `view_lidar.launch`.
 
@@ -103,7 +127,7 @@ This command is now added to `camera_calibration.launch` and `view_lidar.launch`
 
     <!-- rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 1.0 world velodyne 1000 -->
     <node name="static_transform" pkg="tf" type="static_transform_publisher"
-    args="0.0 0.0 0.0 0.0 0.0 0.0 1.0 world velodyne 1000"
+    args="0.0 0.0 0.0 0.0 0.0 0.0 1.0 world velodyne 10"
     />
 </launch>
 ```
@@ -112,7 +136,39 @@ Here is a screenshot of the rviz window visualizing lidar data and rectified ima
 
 ![Task Two: Lidar and camera visualization](results/rviz_lidar_camera.png)
 
-Then the collected six lidar-image point pairs are stored in a json file for calculating the transformation using optimization method.
+Then the collected six lidar-image point pairs are stored in a json file (`config/lidar_image_points.json`) for calculating the transformation using optimization method.
+
+```json
+{
+	"_comment": "Checkerboard corners: top-l, top-m, top-r, bot-l, bot-m, bot-r; points are lidar data in meters; uvs are image points in pixels; bounds are x, y, z, yaw, pitch, roll",
+
+	"points": [ 
+		[ 1.6460, 0.1787, -0.0867, 1.0 ], 
+		[ 1.5833, -0.1386, -0.0817, 1.0 ], 
+		[ 1.5415, -0.3805, -0.0832, 1.0 ], 
+		[ 1.6018, 0.1772, -0.3720, 1.0 ], 
+		[ 1.6101, -0.1048, -0.3725, 1.0 ], 
+		[ 1.5741, -0.3718, -0.3734, 1.0 ] 
+	],
+	"uvs": [
+		[306, 319], 
+		[407, 323],
+		[495, 325],
+		[301, 436],
+		[397, 436],
+		[490, 440]
+	],
+	"initialTransform": [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+	"bounds": [
+		[ -4, 4 ], 
+		[ -4, 4 ], 
+		[ -4, 4 ], 
+		[ 0, 6.28318530718 ], 
+		[ 0, 6.28318530718 ], 
+		[ 0, 6.28318530718 ] 
+	]
+}
+```
 
 
 ### 2. Then run the optimization algorithm to calibrate the lidar-camera transformation (extrinsic)

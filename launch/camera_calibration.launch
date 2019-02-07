@@ -13,8 +13,8 @@
 	<node name="image_proc" pkg="image_proc" type="image_proc" ns="/ridecell" output="screen"
 	/>
 
-	<!-- rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 1.0 base_link velodyne 1000 -->
+	<!-- rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 1.0 world velodyne 10 -->
     <node name="static_transform" pkg="tf" type="static_transform_publisher"
-    args="0.0 0.0 0.0 0.0 0.0 0.0 1.0 world velodyne 1000"
+    args="0.0 0.0 0.0 0.0 0.0 0.0 1.0 world velodyne 10"
     />
 </launch>
