@@ -29,7 +29,7 @@ class LidarCameraCalibration():
         self.cameraModel = PinholeCameraModel()
         self.cameraInfo = CameraInfo()
 
-        self.__fillCameraInfo()
+        self._fillCameraInfo()
         self.cameraModel.fromCameraInfo( self.cameraInfo )
 
         print ('Camera Model is initialized, ready to calibrate ...\n')
@@ -77,7 +77,7 @@ class LidarCameraCalibration():
 
         return error * sign
 
-    def __fillCameraInfo(self,):
+    def _fillCameraInfo(self,):
         """ Fill the camera params from yaml file to the sensor_msgs/CameraInfo
         """
 

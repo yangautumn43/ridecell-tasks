@@ -137,4 +137,66 @@ Final transformation:
 
 Now that we got a rough estimation of the lidar-camera transformation, we can move on to create lidar-image overlay. To be more precific, this transformation is from camera to lidar, which means we see the camear frame as the world frame.
 
+**Basic logic:**
+- Overlay lidar points onto images by setting up the camera model, camera intrinsics, and lidar-camera extrinsics. 
 
+- The yaml file that stores camera intrinsics and other params. It used to initialize the cameraInfo which is used to help cameraModel reproject lidar points to image space. 
+
+- Once received an image, first get the lidar-camera transformation, then reproject the received lidar points to the camera frame (in pixel), finally draw the projected points on the received image and publish the modified image, i.e., the overlay lidar image.
+
+- Once received a lidar message, unpack the raw lidar data to get the [x, y, z, intensity] formated points
+
+The number of lidar points included in one PointCloud2 message is around 23~24K. It makes a quite long time to reproject the lidar points to image space and draw them on the current image.
+
+```
+Received lidar data ...
+23436
+Received an image ... 
+Received lidar data ...
+23378
+Received lidar data ...
+23434
+```
+
+Launch file used to overlay lidar camera, where I slow down the rosbag play by 0.1:
+```xml
+<launch>
+    <param name="use_sim_time" value="true" />
+
+	<!-- Play the rosbag file to publish original sensor data -->
+	<node name="rosbag" pkg="rosbag" type="play" 
+	args="--clock -r 0.1 -s 22 -u 20 $(find ridecell)/bags/2016-11-22-14-32-13_test.bag -l"
+	output="screen"
+	/>
+
+    <!-- Sync the raw images from rosbag and camera_info by publish modified image and camera_info with the same timestamp -->
+	<node name="subpub" pkg="ridecell" type="pub_camera_info.py"
+	args="$(find ridecell)/config/ost.yaml" 
+	/>
+
+	<!-- Run to subscribe topics image_raw and camera_info in namespace, eg., defined in ns="/ridecell" -->
+	<node name="image_proc" pkg="image_proc" type="image_proc" ns="/ridecell" output="screen"
+	/>
+
+    <!-- Overlay lidar points on images by setting up the camera model and lidar-camera extrinsics -->
+	<node name="overlay_lidar_image" pkg="ridecell" type="overlay_lidar_camera.py" args="$(find ridecell)/config/ost.yaml" output="screen">
+		<remap from="image" to="/ridecell/image_rect_color"/>
+		<remap from="lidar_image" to="/ridecell/lidar_image"/>
+		<remap from="lidar" to="/sensors/velodyne_points"/>
+	</node>
+
+	<!-- rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 1.0 base_link velodyne 1000 -->
+    <node name="static_transform" pkg="tf" type="static_transform_publisher"
+    args="-0.53831089 -0.076088   -0.41682017  2.67673445  4.53119823  5.19606972 world velodyne 10"
+    />
+</launch>
+```
+
+**The screencasted overlay results can be found as `results/overlay_lidar_camera.mp4`.**
+
+The screenshot of the overlay results is shown below:
+
+![Task Two: Lidar and camera overlay](results/rviz_overlay.png)
+
+The ros node graph is displayed for a final overview:
+![Task Two: Lidar and camera overlay rqt graph](results/rosgraph.png)

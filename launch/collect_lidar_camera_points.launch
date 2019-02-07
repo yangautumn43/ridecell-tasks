@@ -3,7 +3,7 @@
 
 	<!-- Play the rosbag file to publish original sensor data -->
 	<node name="rosbag" pkg="rosbag" type="play" 
-	args="--clock -s 22 -u 5 $(find ridecell)/bags/2016-11-22-14-32-13_test.bag -l"
+	args="--clock $(find ridecell)/bags/2016-11-22-14-32-13_test.bag -l"
 	output="screen"
 	/>
 
@@ -23,6 +23,6 @@
 
 	<!-- rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 1.0 base_link velodyne 1000 -->
     <node name="static_transform" pkg="tf" type="static_transform_publisher"
-    args="0.0 0.0 0.0 0.0 0.0 0.0 1.0 base_link velodyne 1000"
+    args="0.0 0.0 0.0 0.0 0.0 0.0 1.0 world velodyne 1000"
     />
 </launch>

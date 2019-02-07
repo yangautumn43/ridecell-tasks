@@ -1,0 +1,30 @@
+<launch>
+    <param name="use_sim_time" value="true" />
+
+	<!-- Play the rosbag file to publish original sensor data -->
+	<node name="rosbag" pkg="rosbag" type="play" 
+	args="--clock -r 0.1 -s 22 -u 20 $(find ridecell)/bags/2016-11-22-14-32-13_test.bag -l"
+	output="screen"
+	/>
+
+    <!-- Sync the raw images from rosbag and camera_info by publish modified image and camera_info with the same timestamp -->
+	<node name="subpub" pkg="ridecell" type="pub_camera_info.py"
+	args="$(find ridecell)/config/ost.yaml" 
+	/>
+
+	<!-- Run to subscribe topics image_raw and camera_info in namespace, eg., defined in ns="/ridecell" -->
+	<node name="image_proc" pkg="image_proc" type="image_proc" ns="/ridecell" output="screen"
+	/>
+
+    <!-- Overlay lidar points on images by setting up the camera model and lidar-camera extrinsics -->
+	<node name="overlay_lidar_image" pkg="ridecell" type="overlay_lidar_camera.py" args="$(find ridecell)/config/ost.yaml" output="screen">
+		<remap from="image" to="/ridecell/image_rect_color"/>
+		<remap from="lidar_image" to="/ridecell/lidar_image"/>
+		<remap from="lidar" to="/sensors/velodyne_points"/>
+	</node>
+
+	<!-- rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 1.0 base_link velodyne 1000 -->
+    <node name="static_transform" pkg="tf" type="static_transform_publisher"
+    args="-0.53831089 -0.076088   -0.41682017  2.67673445  4.53119823  5.19606972 world velodyne 10"
+    />
+</launch>
