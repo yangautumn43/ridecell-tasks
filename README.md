@@ -31,7 +31,7 @@ Instead I wrote a script (`pub_camera_info.py`) to subscribe `image` topic and p
 
 ### 3. Launch to play the rosbag and image_proc node to get the rectified images
 
-I wrote the launch file to run the above three altogether.
+I wrote the launch file (`camera_calibration.launch`) to run the above three altogether.
 
 ```xml
 <launch>
@@ -49,7 +49,6 @@ I wrote the launch file to run the above three altogether.
 	<node name="image_proc" pkg="image_proc" type="image_proc" ns="/ridecell" output="screen"
 	/>
 </launch>
-
 ```
 
 Then fire up `rqt`, we can view the rectified images by choosing the `/ridecell/image_rect_color`, as shown below:
@@ -108,6 +107,7 @@ This command is now added to `camera_calibration.launch` and `view_lidar.launch`
     />
 </launch>
 ```
+
 Here is a screenshot of the rviz window visualizing lidar data and rectified image.
 
 ![Task Two: Lidar and camera visualization](results/rviz_lidar_camera.png)
@@ -161,7 +161,7 @@ Received lidar data ...
 23434
 ```
 
-Launch file used to overlay lidar camera, where I slow down the rosbag play by 0.1:
+Launch file (`overlay_lidar_camera.launch`) is used to overlay lidar camera, where I slow down the rosbag play by 0.1:
 ```xml
 <launch>
     <param name="use_sim_time" value="true" />
